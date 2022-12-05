@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: produits-app
+  labels:
+    app: produits-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app : client-app
+  template:
+    metadata:
+      labels:
+        app: client-app
+    spec:
+      containers:
+      - name: client-app
+        image: sanaeelmadani/clientui
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8080
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  client-svc
+spec:
+  selector:
+    app:  client-app
+  ports:
+  - port:  80
+    targetPort: 8080

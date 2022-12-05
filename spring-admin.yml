@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-admin-app
+  labels:
+    app: spring-admin-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app : spring-admin-app
+  template:
+    metadata:
+      labels:
+        app: spring-admin-app
+    spec:
+      containers:
+      - name: spring-admin-app
+        image: sanaeelmadani/springadmin
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 9105
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  spring-admin-svc
+spec:
+  selector:
+    app:  spring-admin-app
+  ports:
+  - port:  80
+    targetPort:  9105
